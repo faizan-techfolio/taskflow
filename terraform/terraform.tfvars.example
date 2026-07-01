@@ -1,0 +1,7 @@
+# Copy this file to terraform.tfvars and fill in your own values.
+# Find an Amazon Linux 2 AMI ID for your region in the AWS console (EC2 > Launch Instance > search "Amazon Linux 2").
+
+ami_id         = "ami-0XXXXXXXXXXXXXXXX"
+key_pair_name  = "your-ec2-key-pair-name"
+my_ip_cidr     = "203.0.113.10/32"
+aws_region     = "ap-south-1"

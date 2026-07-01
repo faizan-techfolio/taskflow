@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TaskFlow</title>
+<style>
+  body { font-family: sans-serif; max-width: 480px; margin: 40px auto; }
+  li { margin: 6px 0; }
+  input { padding: 6px; width: 70%; }
+  button { padding: 6px 12px; }
+</style>
+</head>
+<body>
+<h1>TaskFlow</h1>
+<input id="title" placeholder="New task" />
+<button onclick="addTask()">Add</button>
+<ul id="list"></ul>
+
+<script>
+const API = window.API_URL || 'http://localhost:3000';
+
+async function loadTasks() {
+  const res = await fetch(`${API}/tasks`);
+  const tasks = await res.json();
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  tasks.forEach(t => {
+    const li = document.createElement('li');
+    li.textContent = `${t.title} ${t.done ? '(done)' : ''}`;
+    list.appendChild(li);
+  });
+}
+
+async function addTask() {
+  const title = document.getElementById('title').value;
+  if (!title) return;
+  await fetch(`${API}/tasks`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title }),
+  });
+  document.getElementById('title').value = '';
+  loadTasks();
+}
+
+loadTasks();
+</script>
+</body>
+</html>

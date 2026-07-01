@@ -1,0 +1,28 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2 over SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.AWS_EC2_SSH_KEY }}
+          script: |
+            docker pull ghcr.io/${{ github.repository }}/taskflow-backend:${{ github.sha }}
+            docker stop taskflow-backend || true
+            docker rm taskflow-backend || true
+            docker run -d --name taskflow-backend -p 3000:3000 \
+              -e DB_HOST=${{ secrets.DB_HOST }} \
+              -e DB_USER=${{ secrets.DB_USER }} \
+              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              ghcr.io/${{ github.repository }}/taskflow-backend:${{ github.sha }}
