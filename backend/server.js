@@ -56,7 +56,7 @@ app.delete('/tasks/:id', async (req, res) => {
   res.status(204).send();
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 if (require.main === module) {
   initDb().then(() => {
