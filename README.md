@@ -1,4 +1,4 @@
-# TaskFlow — your DevOps playground
+# TaskFlow — DevOps playground
 
 A small but real task-management app (Node/Express API + PostgreSQL + static
 frontend) that you'll containerize, pipeline, orchestrate, provision, and
