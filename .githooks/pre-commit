@@ -1,0 +1,12 @@
+#!/bin/sh
+echo "Running pre-commit syntax check..."
+
+node --check backend/server.js
+
+if [ $? -ne 0 ]; then
+  echo "❌ Syntax error in backend/server.js — commit blocked!"
+  exit 1
+fi
+
+echo "✅ Syntax check passed — committing."
+exit 0
