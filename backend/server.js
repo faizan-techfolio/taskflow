@@ -4,7 +4,10 @@ const { Pool } = require('pg');
 const app = express();
 app.use(express.json());
 
-console.log(`${new Date().toISOString()} - Incoming request`);
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
+  next();
+});
 
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
