@@ -66,6 +66,7 @@ const PORT = process.env.PORT || 3000;
 
 if (require.main === module) {
   initDb().then(() => {
+
     app.listen(PORT, () => console.log(`TaskFlow Enterprise API listening on port ${PORT}`));
   });
 }
